@@ -98,7 +98,7 @@ const TaskDialog = () => {
       }}
       maxWidth={"xs"}
       fullWidth
-      open={false}
+      open={isOpen}
     >
       <DialogTitle sx={{ p: 3 }}>
         <Stack

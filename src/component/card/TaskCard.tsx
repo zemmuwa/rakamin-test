@@ -17,6 +17,7 @@ import { editTask } from "@/action/task.action";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../list/TaskList";
 import { env } from "process";
+import MoreIcon from "../../../public/icons/more.svg"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -283,7 +284,13 @@ const TaskCard = ({ data }: TaskCardProps) => {
             },
           ]}
         >
-          <Image suppressHydrationWarning alt="more-icon" width="24" height="24" src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/more.svg`} />
+          <Image
+            suppressHydrationWarning
+            alt="more-icon"
+            width="24"
+            height="24"
+            src={MoreIcon}
+          />
         </DropdownButton>
       </Stack>
     </Stack>
