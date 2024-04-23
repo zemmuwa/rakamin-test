@@ -3,12 +3,14 @@ import { Box, ButtonBase, Container, Stack, Typography } from "@mui/material";
 import React from "react";
 import TaskCard from "./TaskCard";
 import Image from "next/image";
+import { IGroup } from "@/types/api-interface/group.interface";
 
-interface GroupCardProps {
-  variant: "primary" | "secondary" | "warning" | "danger";
+export interface GroupCardProps {
+  variant: "primary" | "warning" | "danger"|"success";
+  data:IGroup
 }
 
-const GroupCard = ({ variant }: GroupCardProps) => {
+const GroupCard = ({ variant,data }: GroupCardProps) => {
   const color = {
     main: `${variant}.main`,
     border: variant == "primary" ? `${variant}.main` : `${variant}.100`,
@@ -37,11 +39,11 @@ const GroupCard = ({ variant }: GroupCardProps) => {
           color={color.main}
           fontWeight={FONT_WEIGHT.REGULAR}
         >
-          Group Task 1
+          {data?.title}
         </Typography>
       </Box>
       <Typography variant="textS" fontWeight={FONT_WEIGHT.BOLD}>
-        January - March
+        {data?.description}
       </Typography>
       <Stack spacing="12px">
         <TaskCard

@@ -6,7 +6,7 @@ function layout({ children }: PropsWithChildren) {
   return (
     <Stack>
       <Appbar />
-      <Stack>{children}</Stack>
+      <Stack height="calc(100dvh - 64px)"  overflow="auto">{children}</Stack>
     </Stack>
   );
 }
