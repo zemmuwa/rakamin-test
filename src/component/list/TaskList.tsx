@@ -1,23 +1,34 @@
+"use client";
 import { ITask } from "@/types/api-interface/task.interface";
 import { Box, Stack, Typography } from "@mui/material";
-import React from "react";
-import TaskCard from "../card/TaskCard";
+import React, { useContext } from "react";
+import TaskCard, { DragItem } from "../card/TaskCard";
 import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
+import { useDrop } from "react-dnd";
+import { moveTask } from "@/action/task.action";
+import { LeftRightContext } from "@/context/LeftRIghtContext";
 
 interface TaskListProps {
   data: ITask[];
 }
 
+export const ItemTypes = {
+  TASK_ITEM: "task-item",
+};
+
 const TaskList = ({ data }: TaskListProps) => {
+  const { group } = useContext(LeftRightContext);
+  const [, drop] = useDrop(() => ({
+    accept: ItemTypes.TASK_ITEM,
+    drop({ id, originalIndex }: DragItem) {
+      moveTask(originalIndex, id, group?.id!);
+    },
+  }));
+
   return (
-    <Stack spacing="12px">
+    <Stack component={"div"} spacing="12px" ref={drop as any}>
       {data.length > 0 ? (
-        data.map((item, itemI) => (
-          <TaskCard
-            key={itemI}
-            data={item}
-          />
-        ))
+        data.map((item, itemI) => <TaskCard key={itemI} data={item} />)
       ) : (
         <Box
           sx={{ backgroundColor: "grey.50" }}

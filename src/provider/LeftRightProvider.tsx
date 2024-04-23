@@ -7,9 +7,10 @@ const LeftRightProvider = ({
   children,
   left,
   right,
+  group
 }: PropsWithChildren & IMoveableProps) => {
   return (
-    <LeftRightContext.Provider value={{ left, right }}>
+    <LeftRightContext.Provider value={{ left, right,group }}>
       {children}
     </LeftRightContext.Provider>
   );

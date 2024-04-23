@@ -5,9 +5,6 @@ import { Inter } from "next/font/google";
 import Image from "next/image";
 import React, { useContext } from "react";
 import DropdownButton from "../button/DropdownButton";
-const inter = Inter({ subsets: ["latin"] });
-
-import Icon from "../../../public/icons/more.svg";
 import ArrowRightIcon from "../icon/ArrowRightIcon";
 import ArrowLeftIcon from "../icon/ArrowLeftIcon";
 import CreateIcon from "../icon/CreateIcon";
@@ -17,6 +14,15 @@ import useQueryParam from "@/hook/useQueryParam";
 import { QUERY_KEY } from "@/utils/constant/queryKey";
 import { LeftRightContext } from "@/context/LeftRIghtContext";
 import { editTask } from "@/action/task.action";
+import { useDrag, useDrop } from "react-dnd";
+import { ItemTypes } from "../list/TaskList";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export interface DragItem {
+  id: number;
+  originalIndex: number;
+}
 
 interface TaskCardProps {
   data: ITask;
@@ -26,9 +32,34 @@ const TaskCard = ({ data }: TaskCardProps) => {
   const { left, right } = useContext(LeftRightContext);
   const isComplete = data?.progress_percentage == 100;
   const { pushRoute } = useQueryParam();
+  const [{}, drag] = useDrag(
+    () => ({
+      type: ItemTypes.TASK_ITEM,
+      item: { id: data?.id, originalIndex: data?.todo_id },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      end: (item, monitor) => {
+        const { id: droppedId, originalIndex } = item;
+        const didDrop = monitor.didDrop();
+        if (!didDrop) {
+        }
+      },
+    }),
+    [data?.id, data?.todo_id]
+  );
+
+  const [, drop] = useDrop(
+    () => ({
+      accept: ItemTypes.TASK_ITEM,
+      hover({ originalIndex }: DragItem) {
+      },
+    }),
+    [data?.id]
+  );
 
   const moveTask = async (target: number) => {
-    const res = await editTask(
+    await editTask(
       {
         name: data?.name,
         progress_percentage: data?.progress_percentage.toString(),
@@ -40,12 +71,14 @@ const TaskCard = ({ data }: TaskCardProps) => {
   };
   return (
     <Stack
-      sx={{ backgroundColor: "grey.50" }}
+      component={"div"}
+      sx={{ backgroundColor: "grey.50",cursor:"grab" }}
       borderRadius={"4px"}
       border="1px solid"
       borderColor="grey.200"
       p={2}
       spacing={1}
+      ref={(node) => drag(drop(node)) as any}
     >
       <Typography variant="textM" fontWeight={FONT_WEIGHT.BOLD}>
         {data?.name}
@@ -106,7 +139,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
                   {
                     content: (
                       <Stack
-                      width="100%"
+                        width="100%"
                         className="primary-hover"
                         sx={{
                           "&:hover": {
@@ -143,7 +176,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
                   {
                     content: (
                       <Stack
-                      width="100%"
+                        width="100%"
                         sx={{
                           "&:hover": {
                             "& svg": {
@@ -177,7 +210,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
             {
               content: (
                 <Stack
-                width="100%"
+                  width="100%"
                   sx={{
                     "&:hover": {
                       "& svg": {
@@ -214,7 +247,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
             {
               content: (
                 <Stack
-                width="100%"
+                  width="100%"
                   sx={{
                     "&:hover": {
                       "& svg": {

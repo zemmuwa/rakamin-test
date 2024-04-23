@@ -56,6 +56,30 @@ export const editTask = async (
     return false;
   }
 };
+export const moveTask = async (
+  groupId: number,
+  id: number,
+  targetGroupId: number
+) => {
+  try {
+    const data = await fetch(`${url}/${ENDPOINT.ITEMS(groupId)}/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "*/*",
+      },
+      body: JSON.stringify({
+        target_todo_id: targetGroupId,
+      }),
+    });
+    const response = await data.json();
+    revalidatePath("/", "page");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
 export const deleteTask = async (
   groupId: string | number,
   id: string | number
