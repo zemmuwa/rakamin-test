@@ -16,15 +16,28 @@ import { ITask } from "@/types/api-interface/task.interface";
 import useQueryParam from "@/hook/useQueryParam";
 import { QUERY_KEY } from "@/utils/constant/queryKey";
 import { LeftRightContext } from "@/context/LeftRIghtContext";
+import { editTask } from "@/action/task.action";
 
 interface TaskCardProps {
-  data:ITask
+  data: ITask;
 }
 
 const TaskCard = ({ data }: TaskCardProps) => {
-  const {left,right} = useContext(LeftRightContext)
+  const { left, right } = useContext(LeftRightContext);
   const isComplete = data?.progress_percentage == 100;
-  const {pushRoute} = useQueryParam()
+  const { pushRoute } = useQueryParam();
+
+  const moveTask = async (target: number) => {
+    const res = await editTask(
+      {
+        name: data?.name,
+        progress_percentage: data?.progress_percentage.toString(),
+        todo_id: data?.todo_id,
+      },
+      data?.id,
+      target
+    );
+  };
   return (
     <Stack
       sx={{ backgroundColor: "grey.50" }}
@@ -88,72 +101,83 @@ const TaskCard = ({ data }: TaskCardProps) => {
           menuWidth={"auto"}
           color="inherit"
           menu={[
+            ...(Boolean(right)
+              ? [
+                  {
+                    content: (
+                      <Stack
+                      width="100%"
+                        className="primary-hover"
+                        sx={{
+                          "&:hover": {
+                            "& svg": {
+                              color: (thm) => thm.palette.primary.main,
+                            },
+                            "& .MuiTypography-root": {
+                              color: (thm) => thm.palette.primary.main,
+                            },
+                          },
+                        }}
+                        px={2}
+                        py="6px"
+                        spacing={2}
+                        direction="row"
+                        alignItems="center"
+                      >
+                        <ArrowRightIcon sx={{ color: "grey.900" }} />
+                        <Typography
+                          variant="textM"
+                          fontWeight={FONT_WEIGHT.SEMI_BOLD}
+                          color="grey.900"
+                        >
+                          Move Right
+                        </Typography>
+                      </Stack>
+                    ),
+                    onClick: () => moveTask(right!),
+                  },
+                ]
+              : []),
+            ...(Boolean(left)
+              ? [
+                  {
+                    content: (
+                      <Stack
+                      width="100%"
+                        sx={{
+                          "&:hover": {
+                            "& svg": {
+                              color: (thm) => thm.palette.primary.main,
+                            },
+                            "& .MuiTypography-root": {
+                              color: (thm) => thm.palette.primary.main,
+                            },
+                          },
+                        }}
+                        px={2}
+                        py="6px"
+                        spacing={2}
+                        direction="row"
+                        alignItems="center"
+                      >
+                        <ArrowLeftIcon sx={{ color: "grey.900" }} />
+                        <Typography
+                          variant="textM"
+                          fontWeight={FONT_WEIGHT.SEMI_BOLD}
+                          color="grey.900"
+                        >
+                          Move Left
+                        </Typography>
+                      </Stack>
+                    ),
+                    onClick: () => moveTask(left!),
+                  },
+                ]
+              : []),
             {
               content: (
                 <Stack
-                  className="primary-hover"
-                  sx={{
-                    "&:hover": {
-                      "& svg": {
-                        color: (thm) => thm.palette.primary.main,
-                      },
-                      "& .MuiTypography-root": {
-                        color: (thm) => thm.palette.primary.main,
-                      },
-                    },
-                  }}
-                  px={2}
-                  py="6px"
-                  spacing={2}
-                  direction="row"
-                  alignItems="center"
-                >
-                  <ArrowRightIcon sx={{ color: "grey.900" }} />
-                  <Typography
-                    variant="textM"
-                    fontWeight={FONT_WEIGHT.SEMI_BOLD}
-                    color="grey.900"
-                  >
-                    Move Right
-                  </Typography>
-                </Stack>
-              ),
-              onClick: () => {},
-            },
-            {
-              content: (
-                <Stack
-                  sx={{
-                    "&:hover": {
-                      "& svg": {
-                        color: (thm) => thm.palette.primary.main,
-                      },
-                      "& .MuiTypography-root": {
-                        color: (thm) => thm.palette.primary.main,
-                      },
-                    },
-                  }}
-                  px={2}
-                  py="6px"
-                  spacing={2}
-                  direction="row"
-                  alignItems="center"
-                >
-                  <ArrowLeftIcon sx={{ color: "grey.900" }} />
-                  <Typography
-                    variant="textM"
-                    fontWeight={FONT_WEIGHT.SEMI_BOLD}
-                    color="grey.900"
-                  >
-                    Move Left
-                  </Typography>
-                </Stack>
-              ),
-              onClick: () => {},
-            },
-            {
-              content: (
-                <Stack
+                width="100%"
                   sx={{
                     "&:hover": {
                       "& svg": {
@@ -180,11 +204,17 @@ const TaskCard = ({ data }: TaskCardProps) => {
                   </Typography>
                 </Stack>
               ),
-              onClick: () => {pushRoute(QUERY_KEY.TASK_DIALOG,`${data?.todo_id}+${data?.id}`)},
+              onClick: () => {
+                pushRoute(
+                  QUERY_KEY.TASK_DIALOG,
+                  `${data?.todo_id}+${data?.id}`
+                );
+              },
             },
             {
               content: (
                 <Stack
+                width="100%"
                   sx={{
                     "&:hover": {
                       "& svg": {
@@ -211,7 +241,12 @@ const TaskCard = ({ data }: TaskCardProps) => {
                   </Typography>
                 </Stack>
               ),
-              onClick: () => {pushRoute(QUERY_KEY.TASK_DELETE_DIALOG,`${data?.todo_id}+${data?.id}`)},
+              onClick: () => {
+                pushRoute(
+                  QUERY_KEY.TASK_DELETE_DIALOG,
+                  `${data?.todo_id}+${data?.id}`
+                );
+              },
             },
           ]}
         >

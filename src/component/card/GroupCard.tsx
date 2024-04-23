@@ -54,7 +54,7 @@ const GroupCard = async ({ variant, data, left, right }: GroupCardProps) => {
       <Typography variant="textS" fontWeight={FONT_WEIGHT.BOLD}>
         {data?.description}
       </Typography>
-      <LeftRightProvider left={left} right={right}>
+      <LeftRightProvider left={left} right={right} group={data}>
         <TaskList data={tasks} />
       </LeftRightProvider>
       <Stack

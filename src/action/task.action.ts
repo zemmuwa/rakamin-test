@@ -30,7 +30,11 @@ export const createTask = async (input: TTaskSchema) => {
   }
 };
 
-export const editTask = async (input: TTaskSchema, id: string | number) => {
+export const editTask = async (
+  input: TTaskSchema,
+  id: string | number,
+  targetGroupId?: number
+) => {
   try {
     const data = await fetch(`${url}/${ENDPOINT.ITEMS(input?.todo_id)}/${id}`, {
       method: "PATCH",
@@ -42,7 +46,7 @@ export const editTask = async (input: TTaskSchema, id: string | number) => {
       body: JSON.stringify({
         name: input?.name,
         progress_percentage: Number(input?.progress_percentage),
-        target_todo_id: input?.todo_id,
+        target_todo_id: targetGroupId ?? input?.todo_id,
       }),
     });
     const response = await data.json();

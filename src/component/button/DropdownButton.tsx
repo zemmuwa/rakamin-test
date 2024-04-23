@@ -61,9 +61,9 @@ function DropdownButton({
                 disableTouchRipple
                 sx={{
                   p: 0,
+                   width: "100%",
                   "& :hover": {
                     backgroundColor: "background.default",
-                    width: "100%",
                   },
                 }}
                 key={menuI}
