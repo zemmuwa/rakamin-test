@@ -2,7 +2,12 @@
 import useQueryParam from "@/hook/useQueryParam";
 import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
 import { QUERY_KEY } from "@/utils/constant/queryKey";
-import { Button, DialogActions, TextField } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  DialogActions,
+  TextField,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -11,17 +16,73 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NumberFormatField from "../field/NumberFormatField";
+import { Controller, useForm } from "react-hook-form";
+import { TTaskSchema, taskSchema } from "@/schema/task.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ErrorLabel } from "../label/ErrorLabel";
+import { ITask } from "@/types/api-interface/task.interface";
+import { createTask, getTaskById } from "@/action/task.action";
 
 interface ServiceDialogProps {}
 
 const TaskDialog = () => {
+  const [loading, setLoading] = useState(false);
   const { getValue, replaceRoute } = useQueryParam();
   const splitedQueryValue = getValue(QUERY_KEY.TASK_DIALOG)?.split("+");
   const groupId = splitedQueryValue?.[0];
   const taskId = splitedQueryValue?.[1];
   const isOpen = Boolean(groupId);
+  const closeDialog = () => replaceRoute(QUERY_KEY.TASK_DIALOG, null);
+
+  const [data, setData] = useState<null | ITask>(null);
+
+  const fillForm = () => {
+    setValue("name", data?.name ?? "");
+    setValue("progress_percentage", data?.progress_percentage.toString() ?? "");
+  };
+
+  const getData = async () => {
+    const res = await getTaskById(taskId!);
+    if (res) {
+      setData(res);
+    }
+  };
+  const handleSave = async (values: TTaskSchema) => {
+    setLoading(true);
+    let res = null;
+    try {
+      if (data?.id) {
+      } else {
+        res = await createTask(values);
+      }
+
+      if (res !== null) {
+        closeDialog();
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    setValue("todo_id", Number(groupId));
+    if (taskId) {
+      getData();
+    }
+  }, [taskId]);
+
+  useEffect(() => {
+    fillForm();
+  }, [data?.id]);
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    control,
+  } = useForm<TTaskSchema>({ resolver: zodResolver(taskSchema) });
   return (
     <Dialog
       PaperProps={{
@@ -53,7 +114,7 @@ const TaskDialog = () => {
             edge="start"
             color="inherit"
             sx={{ color: "primary.main", fontSize: "24px", p: 0, m: 0 }}
-            onClick={() => replaceRoute(QUERY_KEY.TASK_DIALOG, null)}
+            onClick={closeDialog}
           >
             <Image
               src="/icons/close.svg"
@@ -73,7 +134,12 @@ const TaskDialog = () => {
           >
             Task Name
           </Typography>
-          <TextField placeholder="Type your Task" />
+          <TextField
+            {...register("name")}
+            helperText={<ErrorLabel>{errors?.name?.message}</ErrorLabel>}
+            error={!!errors?.name?.message}
+            placeholder="Type your Task"
+          />
           <Typography
             component="label"
             variant="textS"
@@ -81,12 +147,25 @@ const TaskDialog = () => {
           >
             Progress
           </Typography>
-          <NumberFormatField suffix="%" placeholder="70%" />
+          <Controller
+            control={control}
+            name={"progress_percentage"}
+            render={({ field: { onChange, value } }) => (
+              <NumberFormatField
+                error={errors.progress_percentage?.message}
+                value={value}
+                onChange={onChange}
+                suffix="%"
+                placeholder="70%"
+              />
+            )}
+          />
         </Stack>
       </DialogContent>
       <DialogActions sx={{ p: 3 }}>
         <Stack spacing="10px" direction="row">
           <Button
+            onClick={closeDialog}
             className="elevation-soft"
             sx={{ backgroundColor: "white", borderColor: "grey.200" }}
             disableElevation
@@ -101,14 +180,25 @@ const TaskDialog = () => {
               Cancel
             </Typography>
           </Button>
-          <Button className="elevation-soft" disableElevation color="primary" variant="contained">
-            <Typography
-              color="white"
-              variant="textM"
-              fontWeight={FONT_WEIGHT.BOLD}
-            >
-              Save Task
-            </Typography>
+          <Button
+            onClick={handleSubmit(handleSave)}
+            className="elevation-soft"
+            disableElevation
+            color="primary"
+            variant="contained"
+            disabled={loading}
+          >
+            {!loading ? (
+              <Typography
+                color="white"
+                variant="textM"
+                fontWeight={FONT_WEIGHT.BOLD}
+              >
+                Save Task
+              </Typography>
+            ) : (
+              <CircularProgress size="14px" color="inherit" />
+            )}
           </Button>
         </Stack>
       </DialogActions>
