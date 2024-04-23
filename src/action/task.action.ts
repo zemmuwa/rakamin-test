@@ -52,6 +52,26 @@ export const editTask = async (input: TTaskSchema, id: string | number) => {
     return false;
   }
 };
+export const deleteTask = async (
+  groupId: string | number,
+  id: string | number
+) => {
+  try {
+    const data = await fetch(`${url}/${ENDPOINT.ITEMS(groupId)}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "*/*",
+      },
+    });
+    const response = await data.json();
+    revalidatePath("/", "page");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
 
 export const getTaskById = async (
   id: number | string,

@@ -1,20 +1,21 @@
 import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
-import TaskCard from "./TaskCard";
 import Image from "next/image";
 import { IGroup } from "@/types/api-interface/group.interface";
 import Link from "next/link";
 import { QUERY_KEY } from "@/utils/constant/queryKey";
 import { getTasksByGroupId } from "@/action/task.action";
 import TaskList from "../list/TaskList";
+import { IMoveableProps } from "@/context/LeftRIghtContext";
+import LeftRightProvider from "@/provider/LeftRightProvider";
 
-export interface GroupCardProps {
+export interface GroupCardProps extends IMoveableProps {
   variant: "primary" | "warning" | "danger" | "success";
   data: IGroup;
 }
 
-const GroupCard = async ({ variant, data }: GroupCardProps) => {
+const GroupCard = async ({ variant, data, left, right }: GroupCardProps) => {
   const color = {
     main: `${variant}.main`,
     border: variant == "primary" ? `${variant}.main` : `${variant}.100`,
@@ -24,7 +25,7 @@ const GroupCard = async ({ variant, data }: GroupCardProps) => {
   const tasks = await getTasksByGroupId(data.id);
   return (
     <Stack
-    height="fit-content"
+      height="fit-content"
       spacing="8px"
       p="16px"
       borderRadius="4px"
@@ -53,7 +54,9 @@ const GroupCard = async ({ variant, data }: GroupCardProps) => {
       <Typography variant="textS" fontWeight={FONT_WEIGHT.BOLD}>
         {data?.description}
       </Typography>
-      <TaskList data={tasks}/>
+      <LeftRightProvider left={left} right={right}>
+        <TaskList data={tasks} />
+      </LeftRightProvider>
       <Stack
         width="fit-content"
         component={Link}

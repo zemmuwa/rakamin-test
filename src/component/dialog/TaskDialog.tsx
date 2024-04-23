@@ -8,7 +8,6 @@ import {
   DialogActions,
   TextField,
 } from "@mui/material";
-import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -99,13 +98,12 @@ const TaskDialog = () => {
       fullWidth
       open={isOpen}
     >
-      <DialogTitle sx={{ px: 3 }}>
+      <DialogTitle sx={{ p: 3 }}>
         <Stack
           direction="row"
           alignItems="center"
           justifyContent="space-between"
           spacing={2}
-          p={2}
         >
           <Typography
             variant="textXl"

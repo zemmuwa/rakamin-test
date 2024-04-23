@@ -3,7 +3,7 @@ import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
 import { Box, Divider, Stack, Typography } from "@mui/material";
 import { Inter } from "next/font/google";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 import DropdownButton from "../button/DropdownButton";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,12 +15,14 @@ import DeleteIcon from "../icon/DeleteIcon";
 import { ITask } from "@/types/api-interface/task.interface";
 import useQueryParam from "@/hook/useQueryParam";
 import { QUERY_KEY } from "@/utils/constant/queryKey";
+import { LeftRightContext } from "@/context/LeftRIghtContext";
 
 interface TaskCardProps {
   data:ITask
 }
 
 const TaskCard = ({ data }: TaskCardProps) => {
+  const {left,right} = useContext(LeftRightContext)
   const isComplete = data?.progress_percentage == 100;
   const {pushRoute} = useQueryParam()
   return (
@@ -209,7 +211,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
                   </Typography>
                 </Stack>
               ),
-              onClick: () => {},
+              onClick: () => {pushRoute(QUERY_KEY.TASK_DELETE_DIALOG,`${data?.todo_id}+${data?.id}`)},
             },
           ]}
         >
