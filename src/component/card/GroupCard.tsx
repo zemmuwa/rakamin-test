@@ -4,6 +4,8 @@ import React from "react";
 import TaskCard from "./TaskCard";
 import Image from "next/image";
 import { IGroup } from "@/types/api-interface/group.interface";
+import Link from "next/link";
+import { QUERY_KEY } from "@/utils/constant/queryKey";
 
 export interface GroupCardProps {
   variant: "primary" | "warning" | "danger" | "success";
@@ -74,7 +76,13 @@ const GroupCard = ({ variant, data }: GroupCardProps) => {
       )}
       <Stack
         width="fit-content"
-        component={ButtonBase}
+        component={Link}
+        sx={{textDecoration:'none'}}
+        href={{
+          query: {
+            [QUERY_KEY.TASK_DIALOG]: data?.id,
+          },
+        }}
         direction="row"
         spacing="5px"
         alignItems="center"

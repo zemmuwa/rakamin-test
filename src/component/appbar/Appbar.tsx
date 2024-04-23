@@ -27,7 +27,7 @@ const Appbar = () => {
           </Typography>
           <Button
             disableElevation
-            sx={{ boxShadow: "0px 1px 2px 0px #0000001F" }}
+           className="elevation-soft"
             color="primary"
             variant="contained"
             startIcon={

@@ -1,5 +1,6 @@
 import { getGroups } from "@/action/group.action";
 import GroupCard, { GroupCardProps } from "@/component/card/GroupCard";
+import TaskDialog from "@/component/dialog/TaskDialog";
 import { Container, Stack, Typography } from "@mui/material";
 
 export default async function Home() {
@@ -30,6 +31,7 @@ export default async function Home() {
             <GroupCard data={group} key={groupI} variant={getVariant(groupI)} />
           ))}
         </Stack>
+        <TaskDialog/>
       </Container>
     </main>
   );
