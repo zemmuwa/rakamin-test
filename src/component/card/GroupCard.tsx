@@ -9,7 +9,7 @@ import { getTasksByGroupId } from "@/action/task.action";
 import TaskList from "../list/TaskList";
 import { IMoveableProps } from "@/context/LeftRIghtContext";
 import LeftRightProvider from "@/provider/LeftRightProvider";
-import PlusIcon from "../../../public/icons/plus.svg"
+import PlusCircleIcon from "../../../public/icons/plus-circle.svg"
 
 
 export interface GroupCardProps extends IMoveableProps {
@@ -76,7 +76,7 @@ const GroupCard = async ({ variant, data, left, right }: GroupCardProps) => {
           alt="plus-icon"
           width="20"
           height="20"
-          src={PlusIcon}
+          src={PlusCircleIcon}
         />
         <Typography
           variant="textS"
