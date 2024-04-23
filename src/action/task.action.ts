@@ -14,8 +14,8 @@ export const createTask = async (input: TTaskSchema) => {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type":'application/json',
-        "Accept":'*/*'
+        "Content-Type": "application/json",
+        Accept: "*/*",
       },
       body: JSON.stringify({
         name: input?.name,
@@ -30,11 +30,35 @@ export const createTask = async (input: TTaskSchema) => {
   }
 };
 
+export const editTask = async (input: TTaskSchema, id: string | number) => {
+  try {
+    const data = await fetch(`${url}/${ENDPOINT.ITEMS(input?.todo_id)}/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+        Accept: "*/*",
+      },
+      body: JSON.stringify({
+        name: input?.name,
+        progress_percentage: Number(input?.progress_percentage),
+        target_todo_id: input?.todo_id,
+      }),
+    });
+    const response = await data.json();
+    revalidatePath("/", "page");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
 export const getTaskById = async (
-  id: number | string
+  id: number | string,
+  groupId: number | string
 ): Promise<ITask | null> => {
   try {
-    const data = await fetch(`${url}/${ENDPOINT.ITEMS}/${id}`, {
+    const data = await fetch(`${url}/${ENDPOINT.ITEMS(groupId)}/${id}`, {
       method: "GET",
       cache: "no-cache",
       headers: {
@@ -45,5 +69,23 @@ export const getTaskById = async (
     return response;
   } catch (error) {
     return null;
+  }
+};
+
+export const getTasksByGroupId = async (
+  id: number | string
+): Promise<ITask[] | []> => {
+  try {
+    const data = await fetch(`${url}/${ENDPOINT.ITEMS(id)}`, {
+      method: "GET",
+      cache: "no-cache",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const response = await data.json();
+    return response;
+  } catch (error) {
+    return [];
   }
 };

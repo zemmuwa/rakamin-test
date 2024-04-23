@@ -23,9 +23,7 @@ import { TTaskSchema, taskSchema } from "@/schema/task.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorLabel } from "../label/ErrorLabel";
 import { ITask } from "@/types/api-interface/task.interface";
-import { createTask, getTaskById } from "@/action/task.action";
-
-interface ServiceDialogProps {}
+import { createTask, editTask, getTaskById } from "@/action/task.action";
 
 const TaskDialog = () => {
   const [loading, setLoading] = useState(false);
@@ -38,13 +36,21 @@ const TaskDialog = () => {
 
   const [data, setData] = useState<null | ITask>(null);
 
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    control,
+  } = useForm<TTaskSchema>({ resolver: zodResolver(taskSchema) });
+
   const fillForm = () => {
     setValue("name", data?.name ?? "");
     setValue("progress_percentage", data?.progress_percentage.toString() ?? "");
   };
 
   const getData = async () => {
-    const res = await getTaskById(taskId!);
+    const res = await getTaskById(taskId!, groupId!);
     if (res) {
       setData(res);
     }
@@ -54,6 +60,7 @@ const TaskDialog = () => {
     let res = null;
     try {
       if (data?.id) {
+        res = await editTask(values, data?.id);
       } else {
         res = await createTask(values);
       }
@@ -66,23 +73,21 @@ const TaskDialog = () => {
     }
   };
   useEffect(() => {
-    setValue("todo_id", Number(groupId));
     if (taskId) {
       getData();
     }
   }, [taskId]);
 
   useEffect(() => {
-    fillForm();
-  }, [data?.id]);
+    if (groupId) {
+      setValue("todo_id", Number(groupId));
+    }
+  }, [groupId]);
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    setValue,
-    control,
-  } = useForm<TTaskSchema>({ resolver: zodResolver(taskSchema) });
+  useEffect(() => {
+    fillForm();
+  }, [data?.id, isOpen]);
+
   return (
     <Dialog
       PaperProps={{
@@ -181,7 +186,7 @@ const TaskDialog = () => {
             </Typography>
           </Button>
           <Button
-            onClick={handleSubmit(handleSave)}
+            onClick={handleSubmit(handleSave, (err) => console.log(err))}
             className="elevation-soft"
             disableElevation
             color="primary"

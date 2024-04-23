@@ -12,14 +12,17 @@ import ArrowRightIcon from "../icon/ArrowRightIcon";
 import ArrowLeftIcon from "../icon/ArrowLeftIcon";
 import CreateIcon from "../icon/CreateIcon";
 import DeleteIcon from "../icon/DeleteIcon";
+import { ITask } from "@/types/api-interface/task.interface";
+import useQueryParam from "@/hook/useQueryParam";
+import { QUERY_KEY } from "@/utils/constant/queryKey";
 
 interface TaskCardProps {
-  progress: number;
-  title: string;
+  data:ITask
 }
 
-const TaskCard = ({ progress, title }: TaskCardProps) => {
-  const isComplete = progress == 100;
+const TaskCard = ({ data }: TaskCardProps) => {
+  const isComplete = data?.progress_percentage == 100;
+  const {pushRoute} = useQueryParam()
   return (
     <Stack
       sx={{ backgroundColor: "grey.50" }}
@@ -30,7 +33,7 @@ const TaskCard = ({ progress, title }: TaskCardProps) => {
       spacing={1}
     >
       <Typography variant="textM" fontWeight={FONT_WEIGHT.BOLD}>
-        {title}
+        {data?.name}
       </Typography>
       <Divider sx={{ borderStyle: "dashed" }} />
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -49,7 +52,7 @@ const TaskCard = ({ progress, title }: TaskCardProps) => {
               position="absolute"
               left={0}
               height="inherit"
-              width={`${progress}%`}
+              width={`${data?.progress_percentage}%`}
             />
           </Box>
           {isComplete ? (
@@ -65,7 +68,7 @@ const TaskCard = ({ progress, title }: TaskCardProps) => {
               variant="textS"
               lineHeight="16px"
             >
-              {progress}%
+              {data?.progress_percentage}%
             </Typography>
           )}
         </Stack>
@@ -175,7 +178,7 @@ const TaskCard = ({ progress, title }: TaskCardProps) => {
                   </Typography>
                 </Stack>
               ),
-              onClick: () => {},
+              onClick: () => {pushRoute(QUERY_KEY.TASK_DIALOG,`${data?.todo_id}+${data?.id}`)},
             },
             {
               content: (
