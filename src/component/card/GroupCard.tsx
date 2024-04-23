@@ -6,16 +6,18 @@ import Image from "next/image";
 import { IGroup } from "@/types/api-interface/group.interface";
 
 export interface GroupCardProps {
-  variant: "primary" | "warning" | "danger"|"success";
-  data:IGroup
+  variant: "primary" | "warning" | "danger" | "success";
+  data: IGroup;
 }
 
-const GroupCard = ({ variant,data }: GroupCardProps) => {
+const GroupCard = ({ variant, data }: GroupCardProps) => {
   const color = {
     main: `${variant}.main`,
     border: variant == "primary" ? `${variant}.main` : `${variant}.100`,
     bg: `${variant}.50`,
   };
+
+  const tasks = [];
   return (
     <Stack
       spacing="8px"
@@ -45,12 +47,31 @@ const GroupCard = ({ variant,data }: GroupCardProps) => {
       <Typography variant="textS" fontWeight={FONT_WEIGHT.BOLD}>
         {data?.description}
       </Typography>
-      <Stack spacing="12px">
-        <TaskCard
-          progress={30}
-          title="Re-designed the zero-g doggie bags. No more spills!"
-        />
-      </Stack>
+      {tasks.length > 0 ? (
+        <Stack spacing="12px">
+          <TaskCard
+            progress={30}
+            title="Re-designed the zero-g doggie bags. No more spills!"
+          />
+        </Stack>
+      ) : (
+        <Box
+          sx={{ backgroundColor: "grey.50" }}
+          borderRadius="4px"
+          border="1px solid"
+          borderColor="grey.200"
+          py={1}
+          px={2}
+        >
+          <Typography
+            color="grey.500"
+            variant="textM"
+            fontWeight={FONT_WEIGHT.REGULAR}
+          >
+            No Task
+          </Typography>
+        </Box>
+      )}
       <Stack
         width="fit-content"
         component={ButtonBase}
