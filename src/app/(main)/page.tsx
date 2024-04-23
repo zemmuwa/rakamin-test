@@ -43,6 +43,7 @@ export default async function Home() {
           <Stack py={3} direction="row" spacing={2}>
             {groupsData.map((group, groupI) => (
               <GroupCard
+                index={groupI}
                 right={
                   groupI != groupsData?.length - 1
                     ? groupsData[groupI + 1].id

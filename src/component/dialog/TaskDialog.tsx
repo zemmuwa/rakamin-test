@@ -24,7 +24,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorLabel } from "../label/ErrorLabel";
 import { ITask } from "@/types/api-interface/task.interface";
 import { createTask, editTask, getTaskById } from "@/action/task.action";
-import CloseIcon from "../../../public/icons/close.svg"
+import CloseIcon from "../../../public/icons/close.svg";
+import { TEST_CONST } from "@/utils/constant/testConst";
 
 const TaskDialog = () => {
   const [loading, setLoading] = useState(false);
@@ -47,10 +48,13 @@ const TaskDialog = () => {
   } = useForm<TTaskSchema>({ resolver: zodResolver(taskSchema) });
 
   const fillForm = () => {
-    resetField(TASK_ATTR_CONST.NAME)
-    resetField(TASK_ATTR_CONST.PROGESS_PERCENTAGE)
+    resetField(TASK_ATTR_CONST.NAME);
+    resetField(TASK_ATTR_CONST.PROGESS_PERCENTAGE);
     setValue(TASK_ATTR_CONST.NAME, data?.name ?? "");
-    setValue(TASK_ATTR_CONST.PROGESS_PERCENTAGE, data?.progress_percentage.toString() ?? "");
+    setValue(
+      TASK_ATTR_CONST.PROGESS_PERCENTAGE,
+      data?.progress_percentage.toString() ?? ""
+    );
   };
 
   const getData = async () => {
@@ -103,7 +107,7 @@ const TaskDialog = () => {
       fullWidth
       open={isOpen}
     >
-      <DialogTitle sx={{ p: 3 }}>
+      <DialogTitle data-test-id={`${TEST_CONST.TASK_DIALOG}`} sx={{ p: 3 }}>
         <Stack
           direction="row"
           alignItems="center"
@@ -124,12 +128,7 @@ const TaskDialog = () => {
             sx={{ color: "primary.main", fontSize: "24px", p: 0, m: 0 }}
             onClick={closeDialog}
           >
-            <Image
-              src={CloseIcon}
-              width="24"
-              height="24"
-              alt="close-icon"
-            />
+            <Image src={CloseIcon} width="24" height="24" alt="close-icon" />
           </IconButton>
         </Stack>
       </DialogTitle>
@@ -143,6 +142,7 @@ const TaskDialog = () => {
             Task Name
           </Typography>
           <TextField
+            inputProps={{ "data-test-id": TEST_CONST.TASK_NAME_FIELD }}
             {...register(TASK_ATTR_CONST.NAME)}
             helperText={<ErrorLabel>{errors?.name?.message}</ErrorLabel>}
             error={!!errors?.name?.message}
@@ -160,6 +160,7 @@ const TaskDialog = () => {
             name={TASK_ATTR_CONST.PROGESS_PERCENTAGE}
             render={({ field: { onChange, value } }) => (
               <NumberFormatField
+                inputProps={{ "data-test-id": TEST_CONST.TASK_PROGRESS_FIELD }}
                 error={errors.progress_percentage?.message}
                 value={value}
                 onChange={onChange}
@@ -189,6 +190,7 @@ const TaskDialog = () => {
             </Typography>
           </Button>
           <Button
+            data-test-id={TEST_CONST.BUTTON_SAVE_CREATE}
             onClick={handleSubmit(handleSave, (err) => console.log(err))}
             className="elevation-soft"
             disableElevation

@@ -19,6 +19,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import ExclamationIcon from "../../../public/icons/exclamation.svg"
 import CloseIcon from "../../../public/icons/close.svg"
+import { TEST_CONST } from "@/utils/constant/testConst";
 
 
 const TaskDeleteDialog = () => {
@@ -54,7 +55,7 @@ const TaskDeleteDialog = () => {
       fullWidth
       open={isOpen}
     >
-      <DialogTitle sx={{ px: 3, pt: 3, pb: 2 }}>
+      <DialogTitle data-test-id={`${TEST_CONST.TASK_DELETE_DIALOG}`} sx={{ px: 3, pt: 3, pb: 2 }}>
         <Stack
           direction="row"
           alignItems="center"
@@ -119,6 +120,7 @@ const TaskDeleteDialog = () => {
             </Typography>
           </Button>
           <Button
+           data-test-id={TEST_CONST.BUTTON_SAVE_DELETE}
             onClick={handleDelete}
             className="elevation-soft"
             disableElevation

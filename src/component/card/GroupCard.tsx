@@ -9,15 +9,16 @@ import { getTasksByGroupId } from "@/action/task.action";
 import TaskList from "../list/TaskList";
 import { IMoveableProps } from "@/context/LeftRIghtContext";
 import LeftRightProvider from "@/provider/LeftRightProvider";
-import PlusCircleIcon from "../../../public/icons/plus-circle.svg"
-
+import PlusCircleIcon from "../../../public/icons/plus-circle.svg";
+import { TEST_CONST } from "@/utils/constant/testConst";
 
 export interface GroupCardProps extends IMoveableProps {
   variant: "primary" | "warning" | "danger" | "success";
   data: IGroup;
+  index:number
 }
 
-const GroupCard = async ({ variant, data, left, right }: GroupCardProps) => {
+const GroupCard = async ({ variant, data, left, right,index }: GroupCardProps) => {
   const color = {
     main: `${variant}.main`,
     border: variant == "primary" ? `${variant}.main` : `${variant}.100`,
@@ -56,10 +57,11 @@ const GroupCard = async ({ variant, data, left, right }: GroupCardProps) => {
       <Typography variant="textS" fontWeight={FONT_WEIGHT.BOLD}>
         {data?.description}
       </Typography>
-      <LeftRightProvider left={left} right={right} group={data}>
+      <LeftRightProvider groupIndex={index} left={left} right={right} group={data}>
         <TaskList data={tasks} />
       </LeftRightProvider>
       <Stack
+        data-test-id={`${TEST_CONST.BUTTON_CREATE}-${index}`}
         width="fit-content"
         component={Link}
         sx={{ textDecoration: "none" }}
@@ -72,12 +74,7 @@ const GroupCard = async ({ variant, data, left, right }: GroupCardProps) => {
         spacing="5px"
         alignItems="center"
       >
-        <Image
-          alt="plus-icon"
-          width="20"
-          height="20"
-          src={PlusCircleIcon}
-        />
+        <Image alt="plus-icon" width="20" height="20" src={PlusCircleIcon} />
         <Typography
           variant="textS"
           fontWeight={FONT_WEIGHT.REGULAR}

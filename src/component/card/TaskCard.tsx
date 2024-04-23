@@ -17,8 +17,9 @@ import { editTask } from "@/action/task.action";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../list/TaskList";
 import { env } from "process";
-import MoreIcon from "../../../public/icons/more.svg"
-import ChecklistIcon from "../../../public/icons/checklist.svg"
+import MoreIcon from "../../../public/icons/more.svg";
+import ChecklistIcon from "../../../public/icons/checklist.svg";
+import { TEST_CONST } from "@/utils/constant/testConst";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,10 +30,11 @@ export interface DragItem {
 
 interface TaskCardProps {
   data: ITask;
+  index: number;
 }
 
-const TaskCard = ({ data }: TaskCardProps) => {
-  const { left, right } = useContext(LeftRightContext);
+const TaskCard = ({ data, index }: TaskCardProps) => {
+  const { left, right, groupIndex } = useContext(LeftRightContext);
   const isComplete = data?.progress_percentage == 100;
   const { pushRoute } = useQueryParam();
   const [{}, drag] = useDrag(
@@ -123,6 +125,8 @@ const TaskCard = ({ data }: TaskCardProps) => {
           )}
         </Stack>
         <DropdownButton
+          testId={`${TEST_CONST.ACTION_MENU}-${groupIndex}-${index}`}
+          menuTestId={`${TEST_CONST.ACTION_MENU_DIALOG}-${groupIndex}-${index}`}
           sx={{
             minWidth: 0,
             p: "0 !important",
@@ -239,6 +243,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
                   </Typography>
                 </Stack>
               ),
+              testId: `${TEST_CONST.BUTTON_EDIT}-${groupIndex}-${index}`,
               onClick: () => {
                 pushRoute(
                   QUERY_KEY.TASK_DIALOG,
@@ -276,6 +281,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
                   </Typography>
                 </Stack>
               ),
+              testId: `${TEST_CONST.BUTTON_DELETE}-${groupIndex}-${index}`,
               onClick: () => {
                 pushRoute(
                   QUERY_KEY.TASK_DELETE_DIALOG,

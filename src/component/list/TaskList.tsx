@@ -28,7 +28,7 @@ const TaskList = ({ data }: TaskListProps) => {
   return (
     <Stack component={"div"} spacing="12px" ref={drop as any}>
       {data.length > 0 ? (
-        data.map((item, itemI) => <TaskCard key={itemI} data={item} />)
+        data.map((item, itemI) => <TaskCard index={itemI} key={itemI} data={item} />)
       ) : (
         <Box
           sx={{ backgroundColor: "grey.50" }}

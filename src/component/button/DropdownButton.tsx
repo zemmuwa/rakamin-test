@@ -4,9 +4,15 @@ import { Button, ButtonProps, Menu, MenuItem } from "@mui/material";
 import React, { type PropsWithChildren, type ReactNode, useState } from "react";
 
 interface PropsDropdownButton {
-  menu?: { content: string | ReactNode; onClick?: (index: number) => void }[];
+  menu?: {
+    testId?: string;
+    content: string | ReactNode;
+    onClick?: (index: number) => void;
+  }[];
   content?: ReactNode;
   menuWidth?: string | number;
+  testId?: string;
+  menuTestId?: string;
 }
 
 function DropdownButton({
@@ -14,6 +20,8 @@ function DropdownButton({
   menu,
   content,
   menuWidth,
+  testId,
+  menuTestId,
   ...props
 }: PropsWithChildren<PropsDropdownButton> & ButtonProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -26,6 +34,7 @@ function DropdownButton({
   return (
     <>
       <Button
+        data-test-id={testId}
         id="basic-button"
         aria-haspopup="true"
         onClick={handleClick}
@@ -44,6 +53,7 @@ function DropdownButton({
         {children}
       </Button>
       <Menu
+        data-test-id={menuTestId}
         id="basic-menu"
         anchorEl={anchorEl}
         open={!!anchorEl}
@@ -56,11 +66,12 @@ function DropdownButton({
         {menu
           ? menu.map((menuItem, menuI) => (
               <MenuItem
+                data-test-id={menuItem.testId}
                 disableRipple
                 disableTouchRipple
                 sx={{
                   p: 0,
-                   width: "100%",
+                  width: "100%",
                   "& :hover": {
                     backgroundColor: "background.default",
                   },

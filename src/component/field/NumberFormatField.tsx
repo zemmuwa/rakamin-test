@@ -2,7 +2,11 @@ import React, { type ReactNode } from "react";
 import { NumericFormat } from "react-number-format";
 
 import { ErrorLabel } from "../label/ErrorLabel";
-import { TextField, InputAdornment } from "@mui/material";
+import {
+  TextField,
+  InputAdornment,
+  InputBaseComponentProps,
+} from "@mui/material";
 interface PropsNumberFormatField {
   onChange?: (value: string) => void;
   onBlur?: () => void;
@@ -17,6 +21,7 @@ interface PropsNumberFormatField {
   placeholder?: string;
   decimalScale?: number;
   allowNegative?: boolean;
+  inputProps?: InputBaseComponentProps;
 }
 const NumberFormatField = React.forwardRef<
   HTMLInputElement,
@@ -35,11 +40,13 @@ const NumberFormatField = React.forwardRef<
     placeholder,
     decimalScale,
     allowNegative,
+    inputProps,
     ...other
   } = props;
 
   return (
     <NumericFormat
+      inputProps={inputProps}
       readOnly={readOnly}
       customInput={TextField}
       size="small"
