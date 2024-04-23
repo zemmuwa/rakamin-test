@@ -18,6 +18,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../list/TaskList";
 import { env } from "process";
 import MoreIcon from "../../../public/icons/more.svg"
+import ChecklistIcon from "../../../public/icons/checklist.svg"
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -106,7 +107,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
           </Box>
           {isComplete ? (
             <Image
-              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/checklist.svg`}
+              src={ChecklistIcon}
               alt="checklist-icon"
               width="16"
               height="16"

@@ -16,8 +16,10 @@ import {
 } from "@mui/material";
 
 import Image from "next/image";
-import { env } from "process";
 import React, { useState } from "react";
+import ExclamationIcon from "../../../public/icons/exclamation.svg"
+import CloseIcon from "../../../public/icons/close.svg"
+
 
 const TaskDeleteDialog = () => {
   const [loading, setLoading] = useState(false);
@@ -64,7 +66,7 @@ const TaskDeleteDialog = () => {
               width={24}
               height={24}
               alt="exclamation-icon"
-              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/exclamation.svg`}
+              src={ExclamationIcon}
             />
             <Typography
               variant="textXl"
@@ -82,7 +84,7 @@ const TaskDeleteDialog = () => {
             onClick={closeDialog}
           >
             <Image
-              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/close.svg`}
+              src={CloseIcon}
               width="24"
               height="24"
               alt="close-icon"

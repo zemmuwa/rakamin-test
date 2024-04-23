@@ -1,9 +1,9 @@
 import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
 import { AppBar, Button, Container, Stack, Typography } from "@mui/material";
-
 import Image from "next/image";
-import { env } from "process";
 import React from "react";
+import PlusIcon from "../../../public/icons/plus.svg"
+
 
 const Appbar = () => {
   return (
@@ -34,7 +34,7 @@ const Appbar = () => {
             variant="contained"
             startIcon={
               <Image
-                src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/plus.svg`}
+                src={PlusIcon}
                 alt="icon-plus"
                 width="12"
                 height="12"
