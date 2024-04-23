@@ -19,7 +19,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import NumberFormatField from "../field/NumberFormatField";
 import { Controller, useForm } from "react-hook-form";
-import { TTaskSchema, taskSchema } from "@/schema/task.schema";
+import { TASK_ATTR_CONST, TTaskSchema, taskSchema } from "@/schema/task.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorLabel } from "../label/ErrorLabel";
 import { ITask } from "@/types/api-interface/task.interface";
@@ -43,11 +43,14 @@ const TaskDialog = () => {
     handleSubmit,
     setValue,
     control,
+    resetField,
   } = useForm<TTaskSchema>({ resolver: zodResolver(taskSchema) });
 
   const fillForm = () => {
-    setValue("name", data?.name ?? "");
-    setValue("progress_percentage", data?.progress_percentage.toString() ?? "");
+    resetField(TASK_ATTR_CONST.NAME)
+    resetField(TASK_ATTR_CONST.PROGESS_PERCENTAGE)
+    setValue(TASK_ATTR_CONST.NAME, data?.name ?? "");
+    setValue(TASK_ATTR_CONST.PROGESS_PERCENTAGE, data?.progress_percentage.toString() ?? "");
   };
 
   const getData = async () => {
@@ -140,7 +143,7 @@ const TaskDialog = () => {
             Task Name
           </Typography>
           <TextField
-            {...register("name")}
+            {...register(TASK_ATTR_CONST.NAME)}
             helperText={<ErrorLabel>{errors?.name?.message}</ErrorLabel>}
             error={!!errors?.name?.message}
             placeholder="Type your Task"
@@ -154,7 +157,7 @@ const TaskDialog = () => {
           </Typography>
           <Controller
             control={control}
-            name={"progress_percentage"}
+            name={TASK_ATTR_CONST.PROGESS_PERCENTAGE}
             render={({ field: { onChange, value } }) => (
               <NumberFormatField
                 error={errors.progress_percentage?.message}
