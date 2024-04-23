@@ -86,14 +86,14 @@ const TaskCard = ({ progress, title }: TaskCardProps) => {
             {
               content: (
                 <Stack
-                className="primary-hover"
+                  className="primary-hover"
                   sx={{
                     "&:hover": {
                       "& svg": {
-                        color: thm=>thm.palette.primary.main,
+                        color: (thm) => thm.palette.primary.main,
                       },
                       "& .MuiTypography-root": {
-                        color: thm=>thm.palette.primary.main,
+                        color: (thm) => thm.palette.primary.main,
                       },
                     },
                   }}
@@ -118,16 +118,16 @@ const TaskCard = ({ progress, title }: TaskCardProps) => {
             {
               content: (
                 <Stack
-                sx={{
-                  "&:hover": {
-                    "& svg": {
-                      color: thm=>thm.palette.primary.main,
+                  sx={{
+                    "&:hover": {
+                      "& svg": {
+                        color: (thm) => thm.palette.primary.main,
+                      },
+                      "& .MuiTypography-root": {
+                        color: (thm) => thm.palette.primary.main,
+                      },
                     },
-                    "& .MuiTypography-root": {
-                      color: thm=>thm.palette.primary.main,
-                    },
-                  },
-                }}
+                  }}
                   px={2}
                   py="6px"
                   spacing={2}
@@ -149,16 +149,16 @@ const TaskCard = ({ progress, title }: TaskCardProps) => {
             {
               content: (
                 <Stack
-                sx={{
-                  "&:hover": {
-                    "& svg": {
-                      color: thm=>thm.palette.primary.main,
+                  sx={{
+                    "&:hover": {
+                      "& svg": {
+                        color: (thm) => thm.palette.primary.main,
+                      },
+                      "& .MuiTypography-root": {
+                        color: (thm) => thm.palette.primary.main,
+                      },
                     },
-                    "& .MuiTypography-root": {
-                      color: thm=>thm.palette.primary.main,
-                    },
-                  },
-                }}
+                  }}
                   px={2}
                   py="6px"
                   spacing={2}
@@ -180,16 +180,16 @@ const TaskCard = ({ progress, title }: TaskCardProps) => {
             {
               content: (
                 <Stack
-                sx={{
-                  "&:hover": {
-                    "& svg": {
-                      color: thm=>thm.palette.error.main,
+                  sx={{
+                    "&:hover": {
+                      "& svg": {
+                        color: (thm) => thm.palette.error.main,
+                      },
+                      "& .MuiTypography-root": {
+                        color: (thm) => thm.palette.error.main,
+                      },
                     },
-                    "& .MuiTypography-root": {
-                      color: thm=>thm.palette.error.main,
-                    },
-                  },
-                }}
+                  }}
                   px={2}
                   py="6px"
                   spacing={2}

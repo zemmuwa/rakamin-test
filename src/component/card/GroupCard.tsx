@@ -1,7 +1,8 @@
 import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, ButtonBase, Container, Stack, Typography } from "@mui/material";
 import React from "react";
 import TaskCard from "./TaskCard";
+import Image from "next/image";
 
 interface GroupCardProps {
   variant: "primary" | "secondary" | "warning" | "danger";
@@ -47,6 +48,27 @@ const GroupCard = ({ variant }: GroupCardProps) => {
           progress={30}
           title="Re-designed the zero-g doggie bags. No more spills!"
         />
+      </Stack>
+      <Stack
+        width="fit-content"
+        component={ButtonBase}
+        direction="row"
+        spacing="5px"
+        alignItems="center"
+      >
+        <Image
+          alt="plus-icon"
+          width="20"
+          height="20"
+          src="/icons/plus-circle.svg"
+        />
+        <Typography
+          variant="textS"
+          fontWeight={FONT_WEIGHT.REGULAR}
+          color="text.tertiary"
+        >
+          New Task
+        </Typography>
       </Stack>
     </Stack>
   );
