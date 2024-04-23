@@ -16,6 +16,7 @@ import { LeftRightContext } from "@/context/LeftRIghtContext";
 import { editTask } from "@/action/task.action";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../list/TaskList";
+import { env } from "process";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -52,8 +53,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
   const [, drop] = useDrop(
     () => ({
       accept: ItemTypes.TASK_ITEM,
-      hover({ originalIndex }: DragItem) {
-      },
+      hover({ originalIndex }: DragItem) {},
     }),
     [data?.id]
   );
@@ -72,7 +72,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
   return (
     <Stack
       component={"div"}
-      sx={{ backgroundColor: "grey.50",cursor:"grab" }}
+      sx={{ backgroundColor: "grey.50", cursor: "grab" }}
       borderRadius={"4px"}
       border="1px solid"
       borderColor="grey.200"
@@ -105,7 +105,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
           </Box>
           {isComplete ? (
             <Image
-              src="/icons/checklist.svg"
+              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/checklist.svg`}
               alt="checklist-icon"
               width="16"
               height="16"
@@ -283,7 +283,7 @@ const TaskCard = ({ data }: TaskCardProps) => {
             },
           ]}
         >
-          <Image alt="more-icon" width="24" height="24" src="/icons/more.svg" />
+          <Image suppressHydrationWarning alt="more-icon" width="24" height="24" src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/more.svg`} />
         </DropdownButton>
       </Stack>
     </Stack>

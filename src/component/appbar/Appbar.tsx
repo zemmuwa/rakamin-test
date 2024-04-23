@@ -5,11 +5,16 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Image from "next/image";
+import { env } from "process";
 import React from "react";
 
 const Appbar = () => {
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: "background.default" }} elevation={1}>
+    <AppBar
+      position="sticky"
+      sx={{ backgroundColor: "background.default" }}
+      elevation={1}
+    >
       <Container sx={{ position: "relative" }}>
         <Stack
           direction="row"
@@ -27,12 +32,12 @@ const Appbar = () => {
           </Typography>
           <Button
             disableElevation
-           className="elevation-soft"
+            className="elevation-soft"
             color="primary"
             variant="contained"
             startIcon={
               <Image
-                src="/icons/plus.svg"
+                src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/plus.svg`}
                 alt="icon-plus"
                 width="12"
                 height="12"

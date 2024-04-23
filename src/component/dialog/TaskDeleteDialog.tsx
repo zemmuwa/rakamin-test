@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
+import { env } from "process";
 import React, { useState } from "react";
 
 const TaskDeleteDialog = () => {
@@ -58,7 +59,7 @@ const TaskDeleteDialog = () => {
               width={24}
               height={24}
               alt="exclamation-icon"
-              src="/icons/exclamation.svg"
+              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/exclamation.svg`}
             />
             <Typography
               variant="textXl"
@@ -76,7 +77,7 @@ const TaskDeleteDialog = () => {
             onClick={closeDialog}
           >
             <Image
-              src="/icons/close.svg"
+              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/close.svg`}
               width="24"
               height="24"
               alt="close-icon"

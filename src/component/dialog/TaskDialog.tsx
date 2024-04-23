@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorLabel } from "../label/ErrorLabel";
 import { ITask } from "@/types/api-interface/task.interface";
 import { createTask, editTask, getTaskById } from "@/action/task.action";
+import { env } from "process";
 
 const TaskDialog = () => {
   const [loading, setLoading] = useState(false);
@@ -120,7 +121,7 @@ const TaskDialog = () => {
             onClick={closeDialog}
           >
             <Image
-              src="/icons/close.svg"
+              src={`${env.NEXT_PUBLIC_BASE_PATH ?? ""}/icons/close.svg`}
               width="24"
               height="24"
               alt="close-icon"
