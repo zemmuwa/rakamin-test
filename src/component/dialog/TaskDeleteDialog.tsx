@@ -3,13 +3,18 @@ import { deleteTask } from "@/action/task.action";
 import useQueryParam from "@/hook/useQueryParam";
 import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
 import { QUERY_KEY } from "@/utils/constant/queryKey";
-import { Button, CircularProgress, DialogActions } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import {
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+
 import Image from "next/image";
 import { env } from "process";
 import React, { useState } from "react";

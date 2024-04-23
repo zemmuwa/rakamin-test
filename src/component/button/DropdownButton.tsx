@@ -1,7 +1,6 @@
 "use client";
-import Button, { type ButtonProps } from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+
+import { Button, ButtonProps, Menu, MenuItem } from "@mui/material";
 import React, { type PropsWithChildren, type ReactNode, useState } from "react";
 
 interface PropsDropdownButton {

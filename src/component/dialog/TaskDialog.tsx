@@ -5,15 +5,16 @@ import { QUERY_KEY } from "@/utils/constant/queryKey";
 import {
   Button,
   CircularProgress,
+  Dialog,
   DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Stack,
   TextField,
+  Typography,
 } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import NumberFormatField from "../field/NumberFormatField";
@@ -97,7 +98,7 @@ const TaskDialog = () => {
       }}
       maxWidth={"xs"}
       fullWidth
-      open={isOpen}
+      open={false}
     >
       <DialogTitle sx={{ p: 3 }}>
         <Stack

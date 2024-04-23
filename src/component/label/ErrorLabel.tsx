@@ -1,5 +1,5 @@
 import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
-import Typography from "@mui/material/Typography";
+import { Typography } from "@mui/material";
 import React, { type PropsWithChildren } from "react";
 
 export const ErrorLabel = ({ children }: PropsWithChildren) => {

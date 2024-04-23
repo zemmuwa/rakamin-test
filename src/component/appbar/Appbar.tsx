@@ -1,9 +1,6 @@
 import { FONT_WEIGHT } from "@/utils/constant/fontWeight";
-import { Button, Typography } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
+import { AppBar, Button, Container, Stack, Typography } from "@mui/material";
+
 import Image from "next/image";
 import { env } from "process";
 import React from "react";
